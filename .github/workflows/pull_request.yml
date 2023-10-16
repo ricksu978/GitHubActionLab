@@ -1,0 +1,37 @@
+name: Build Pipeline CI
+
+on: 
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  push:
+    branches: main
+  release:
+    types: published
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  DOTNET_IS_PRODUCTION: ${{ github.event_name == 'release' && true || false }}
+  DOTNET_APP_SOLUTION: './SSW.EagleEye.sln'
+  DOTNET_APP_PUBLISH_PROJECT: './src/SSW.EagleEye.Console'
+  DOTNET_APP_PUBLISH_FOLDER: '${{ github.workspace }}/publish'
+  DOTNET_TEST_COVERAGE_FILE: 'coverage.cobertura.xml'
+  
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+
+    # Checkout the repo
+    - name: git checkout
+      uses: actions/checkout@v3
+        
+    # Dump GitHub Context
+    - name: Dump GitHub Context
+      env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+      run: |
+        echo '**GitHub Context**' >> GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        echo "$GITHUB_CONTEXT" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY

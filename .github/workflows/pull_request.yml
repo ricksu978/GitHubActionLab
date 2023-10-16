@@ -3,14 +3,13 @@ name: Build Pipeline CI
 on: 
   pull_request:
     types: [opened, synchronize, reopened, closed]
-  push:
-    branches: main
+    branches: [main]
   release:
-    types: [published, released]
+    types: [published]
 
 env:
   DOTNET_VERSION: '8.0.x'
-  DOTNET_IS_PRODUCTION: ${{ github.event_name == 'release' && true || false }}
+  DOTNET_IS_PRODUCTION: ${{ github.event_name == 'published' && true || false }}
   DOTNET_APP_SOLUTION: './SSW.EagleEye.sln'
   DOTNET_APP_PUBLISH_PROJECT: './src/SSW.EagleEye.Console'
   DOTNET_APP_PUBLISH_FOLDER: '${{ github.workspace }}/publish'

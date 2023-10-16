@@ -1,6 +1,6 @@
 name: Build Pipeline CI
 
-on: 
+on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches: [main]
@@ -14,7 +14,7 @@ env:
   DOTNET_APP_PUBLISH_PROJECT: './src/SSW.EagleEye.Console'
   DOTNET_APP_PUBLISH_FOLDER: '${{ github.workspace }}/publish'
   DOTNET_TEST_COVERAGE_FILE: 'coverage.cobertura.xml'
-  
+
 jobs:
   build:
     name: Build and Test
@@ -24,7 +24,7 @@ jobs:
     # Checkout the repo
     - name: git checkout
       uses: actions/checkout@v3
-        
+
     # Dump GitHub Context
     - name: Dump GitHub Context
       env:
